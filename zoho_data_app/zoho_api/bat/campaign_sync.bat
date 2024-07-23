@@ -1,0 +1,1 @@
+"C:/Program Files/Python310/python.exe" "C:/Users/fajar/Documents/Python/Task Offline/zoho_data_app/zoho_api/sync_module/campaign_sync.py"

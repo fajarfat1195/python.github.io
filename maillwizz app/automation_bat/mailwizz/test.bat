@@ -1,0 +1,1 @@
+"C:/Program Files/Python310/python.exe" "c:/Users/fajar/Documents/Python/Task Offline/maillwizz app/live_app/leads_automation_script/sync_subs_live.py"
