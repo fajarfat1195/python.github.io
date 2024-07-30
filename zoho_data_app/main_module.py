@@ -202,6 +202,17 @@ def find_phone_by_email(df, column_email, column_phone,  email):
     
     return str(df_result[column_email])
 
+# Define a function to categorize contacts
+def categorize_contacts(df):
+    conditions = [
+        (df['Email'].to_numpy() != 'empty') & (df['Phone'].to_numpy() == 'empty') & (df['Mobile'].to_numpy() == 'empty'),
+        (df['Email'].to_numpy() == 'empty') & ((df['Phone'].to_numpy() != 'empty') | (df['Mobile'].to_numpy() != 'empty')),
+        (df['Email'].to_numpy() != 'empty') & ((df['Phone'].to_numpy() != 'empty') | (df['Mobile'].to_numpy() != 'empty'))
+    ]
+    choices = ['Email Only', 'Phone Only', 'Email and Phone']
+    df['Contact Type'] = np.select(conditions, choices, default='Blank')
+
+
 
 def batch(row_count, batch_row):
     i_batch = row_count / batch_row
