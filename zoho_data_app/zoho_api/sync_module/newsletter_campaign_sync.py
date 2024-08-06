@@ -161,7 +161,7 @@ else :
 
 # list key list test
 list_key = campaign.get_list_key()
-list_name = 'Test'
+list_name = 'Newsletter'
 
 # push data ke list zoho campaign
 push_data = campaign.push_data(list_key[list_name], list_name, new_df)
