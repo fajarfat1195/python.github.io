@@ -12,7 +12,7 @@ import sys
 sys.path.append('../')
 
 import zoho_crm_api_module as crm
-import accell_mail_api_module as campaign
+import zoho_campaign_api_module as campaign
 import requests
 
 import sys
@@ -51,6 +51,7 @@ cols = [
 ]
 
 # %%
+campaign_token = campaign.get_campaign_token()
 crm_token = crm.get_crm_token()
 
 # %%
@@ -71,7 +72,7 @@ new_df
 # new_df.to_excel(r"C:\Users\fajar\Documents\Python\Data\newsletter_zoho.xlsx", index=False)
 
 # %%
-# # mencari tanggal 8 hari kebelakang
+# # mencari tanggal 8 hari kebelekang
 # calculate_date = datetime.now() - timedelta(days=8)
 # new_cal_date = str(calculate_date.strftime("%Y-%m-%d")).split(' ')
 # first_date = new_cal_date[0]
@@ -161,10 +162,10 @@ else :
 
 # list key list test
 list_key = campaign.get_list_key()
-list_name = 'Test'
+list_name = 'Newsletter'
 
 # push data ke list zoho campaign
-push_data = campaign.push_data(list_key[list_name], list_name, new_df)
+push_data = campaign.push_data(list_key[list_name], list_name, campaign_token, new_df)
 push_data
 
 # %%
@@ -180,6 +181,6 @@ df_responses  = push_data.groupby(['Response Description'])['Email'].count().res
 # jika ingin menambahkan sheets baru
 with pd.ExcelWriter(path, mode="a", engine="openpyxl") as writer:
     df_summary.to_excel(writer, sheet_name="Summary Leads", index=False)
-    df_responses.to_excel(writer, sheet_name="Summary Responses", index=False)
+    df_responses.to_excel(writer, sheet_name="Summary Responses", index=False) 
 
 
