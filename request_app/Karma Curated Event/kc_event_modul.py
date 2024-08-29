@@ -3,7 +3,7 @@ import re
 import random
 import time
 
-def compile(spreadsheet, sheet_names, execeptional_list):
+def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
 
     count = 0
     frames = []
@@ -19,8 +19,12 @@ def compile(spreadsheet, sheet_names, execeptional_list):
 
                 globals()['df%s' % count] = pd.DataFrame(globals()['rows%s' % count])
                 globals()['df%s' % count].columns = globals()['df%s' % count].columns.str.title() # change column into proper case
+                
                 globals()['df%s' % count]['Event Name'] = ''
                 globals()['df%s' % count]['Event Name'] = sheet_names[count]
+
+                globals()['df%s' % count]['Event Sheet Link'] = ''
+                globals()['df%s' % count]['Event Sheet Link'] = f"https://docs.google.com/spreadsheets/d/{spreadsheet.id}/edit#gid={sheet_names_id[count]}"
 
                 # get summary detail event sheets
                 globals()['df%s' % count]['Event Link'] = ''
