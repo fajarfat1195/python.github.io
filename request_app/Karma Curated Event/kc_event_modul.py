@@ -18,14 +18,13 @@ def compile(spreadsheet, sheet_names, execeptional_list):
                 globals()['rows%s' % count] = globals()['worksheet%s' % count].get_all_records()
 
                 globals()['df%s' % count] = pd.DataFrame(globals()['rows%s' % count])
-                globals()['df%s' % count].fillna('', inplace=True)
                 globals()['df%s' % count].columns = globals()['df%s' % count].columns.str.title() # change column into proper case
                 globals()['df%s' % count]['Event Name'] = ''
                 globals()['df%s' % count]['Event Name'] = sheet_names[count]
 
                 # get summary detail event sheets
                 globals()['df%s' % count]['Event Link'] = ''
-                globals()['event_link%s' % count] = globals()['df%s' % count]['Servicing Office'].loc[globals()['df%s' % count]['Servicing Office'].str.contains('http')].to_list()
+                globals()['event_link%s' % count] = globals()['df%s' % count]['Servicing Office'].loc[globals()['df%s' % count]['Servicing Office'].str.contains('http', na=False)].to_list()
                 if  globals()['event_link%s' % count]: # if value exist on summary detail
                     globals()['df%s' % count]['Event Link'] = globals()['event_link%s' % count][0]
                     globals()['df%s' % count]['Event Link'] = globals()['df%s' % count]['Event Link'].str.replace('event info - ', '', regex=True, flags=re.I)    
@@ -46,6 +45,7 @@ def compile(spreadsheet, sheet_names, execeptional_list):
                 else:
                     globals()['df%s' % count]['Quota Event'] = ''
 
+                globals()['df%s' % count].fillna('', inplace=True)
                 # memasukan semua file
                 frames.append(globals()['df%s' % count])
 
