@@ -32,10 +32,19 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
                     # get the non-empty values from the 'Event Date From' column
                     non_empty_date_from = globals()['df%s' % count]['Event Date From'][globals()['df%s' % count]['Event Date From'] != '']
                     non_empty_date_to = globals()['df%s' % count]['Event Date To'][globals()['df%s' % count]['Event Date To'] != '']
-
+                    non_empty_event_status = globals()['df%s' % count]['Event Status'][globals()['df%s' % count]['Event Status'] != '']
+                    non_empty_event_location = globals()['df%s' % count]['Event Location'][globals()['df%s' % count]['Event Location'] != '']
+                    
                     # fill empty values in 'Event Date From' with the first non-empty value
-                    globals()['df%s' % count].loc[globals()['df%s' % count]['Event Date From'] == '', 'Event Date From'] = non_empty_date_from.iloc[0]
-                    globals()['df%s' % count].loc[globals()['df%s' % count]['Event Date To'] == '', 'Event Date To'] = non_empty_date_to.iloc[0]
+                    # if non_empty variable not N/A or data row column is not fully empty on sheets
+                    if not non_empty_date_from.empty:
+                        globals()['df%s' % count].loc[globals()['df%s' % count]['Event Date From'] == '', 'Event Date From'] = non_empty_date_from.iloc[0]
+                    if not non_empty_date_to.empty:
+                        globals()['df%s' % count].loc[globals()['df%s' % count]['Event Date To'] == '', 'Event Date To'] = non_empty_date_to.iloc[0]
+                    if not non_empty_event_status.empty:
+                        globals()['df%s' % count].loc[globals()['df%s' % count]['Event Status'] == '', 'Event Status'] = non_empty_event_status.iloc[0]
+                    if not non_empty_event_location.empty:
+                        globals()['df%s' % count].loc[globals()['df%s' % count]['Event Location'] == '', 'Event Location'] = non_empty_event_location.iloc[0]
 
                     # get summary detail event sheets
                     globals()['df%s' % count]['Event Link'] = ''
