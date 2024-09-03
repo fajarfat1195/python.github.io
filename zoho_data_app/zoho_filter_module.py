@@ -6,11 +6,13 @@ import re
 
 def user_req(df):
     
-    f_1 = (df['Country'].str.contains('singapore|malaysia', regex=True, flags=re.I))
-    f_2 = (df['Nationality'].str.contains('singapore|malaysia', regex=True, flags=re.I))
+    f_1 = (df['Lead Source'] == 'Past Guests')
+    f_2 = ~(df['Country'].str.contains('singapore|malaysia', regex=True, flags=re.I))
+    f_3 = ~(df['Nationality'].str.contains('singapore|malaysia', regex=True, flags=re.I))
     c_1 = ~(df['Email'].isna() & df['Mobile'].isna() & df['Phone'].isna()) 
     final_filter = (
-        (f_1|f_2) &
+        (f_1) &
+        (f_2 | f_3) &
         c_1 )
 
     return final_filter
