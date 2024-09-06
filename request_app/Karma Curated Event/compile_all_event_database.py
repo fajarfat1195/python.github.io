@@ -35,7 +35,7 @@ execeptional_list = [
     'Summary Report',
     'PAST EVENTS - Summary Report',
     'Past Attedants',
-    'Template',
+    'Template'
     ]
 
 
