@@ -34,7 +34,9 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
                     non_empty_date_to = globals()['df%s' % count]['Event Date To'][globals()['df%s' % count]['Event Date To'] != '']
                     non_empty_event_status = globals()['df%s' % count]['Event Status'][globals()['df%s' % count]['Event Status'] != '']
                     non_empty_event_location = globals()['df%s' % count]['Event Location'][globals()['df%s' % count]['Event Location'] != '']
-                    
+                    non_empty_event_region = globals()['df%s' % count]['Event Region'][globals()['df%s' % count]['Event Region'] != '']
+                    non_empty_event_type = globals()['df%s' % count]['Event Type'][globals()['df%s' % count]['Event Type'] != '']
+
                     # fill empty values in 'Event Date From' with the first non-empty value
                     # if non_empty variable not N/A or data row column is not fully empty on sheets
                     if not non_empty_date_from.empty:
@@ -45,6 +47,10 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
                         globals()['df%s' % count].loc[globals()['df%s' % count]['Event Status'] == '', 'Event Status'] = non_empty_event_status.iloc[0]
                     if not non_empty_event_location.empty:
                         globals()['df%s' % count].loc[globals()['df%s' % count]['Event Location'] == '', 'Event Location'] = non_empty_event_location.iloc[0]
+                    if not non_empty_event_region.empty:
+                        globals()['df%s' % count].loc[globals()['df%s' % count]['Event Region'] == '', 'Event Region'] = non_empty_event_region.iloc[0]
+                    if not non_empty_event_type.empty:
+                        globals()['df%s' % count].loc[globals()['df%s' % count]['Event Type'] == '', 'Event Type'] = non_empty_event_type.iloc[0]
 
                     # get summary detail event sheets
                     globals()['df%s' % count]['Event Link'] = ''
