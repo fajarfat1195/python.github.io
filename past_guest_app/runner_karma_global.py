@@ -91,7 +91,7 @@ def checkStatus(member):
         return 'Pendding'
 
 
-file = r'C:\Users\fajar\Documents\Python\Data\ZOHO - GL & VP - Guest Checked Out till 15-04-2024 - Checked-Out.csv'
+file = r'C:\Users\fajar\Documents\Python\Data\ZOHO - GL & VP - Guest Checked Out till 09-09-2024 - Cancelled.csv'
 df = getCSV(file)
 df['EMail'] = df['EMail'].apply(findOTA)
 df['TelNo'] = df.apply(lambda x: Norm_Phone(x['TelNo'],x['Country']),axis=1)
@@ -122,7 +122,7 @@ df_phone = df[(
 # df_phone_unique = df_phone[(~df_phone['TelNo'].duplicated())]
 df_phone_unique = df_phone[(~df_phone.duplicated(subset=['TelNo','Lead Location']))]
 
-df_new = df_email_unique.append(df_phone_unique)
+df_new = df_email_unique._append(df_phone_unique)
 
 # Drop data with staff email
 # df_new = df_new.drop(df_new[df_new["EMail"].str.contains("@karmagroup.com")].index)
@@ -238,7 +238,7 @@ dict = json_normalize(new_df)
 response_df = pd.DataFrame(dict)
 
 # df_new.to_csv(r'C:\Users\fajar\Documents\Python\Data\before-normalize.csv', index=False)
-response_df.to_csv(r'C:\Users\fajar\Documents\Python\Data\normalize_checkout.csv', index=False)
+response_df.to_csv(r'C:\Users\fajar\Documents\Python\Data\normalize_cancelled.csv', index=False)
 
 
     

@@ -91,7 +91,7 @@ def checkStatus(member):
         return 'Pendding'
 
 # CANCELLED
-file = r'C:\Users\fajar\Documents\Python\Data\ZOHO - GL & VP - Guest Checked Out till 15-04-2024 - Viewpoint.csv'
+file = r'C:\Users\fajar\Documents\Python\Data\ZOHO - GL & VP - Guest Checked Out till 09-09-2024 - Viewpoint.csv'
 df = getCSV(file)
 df['Email'] = df['Email'].apply(findOTA)
 df['Phone'] = df.apply(lambda x: Norm_Phone(x['Phone'],x['Country']),axis=1)
@@ -121,7 +121,7 @@ df_phone = df[(
 # df_phone_unique = df_phone[(~df_phone['Phone'].duplicated())]
 df_phone_unique = df_phone[(~df_phone.duplicated(subset=['Phone','Lead Locations']))]
 
-df_new = df_email_unique.append(df_phone_unique)
+df_new = df_email_unique._append(df_phone_unique)
 # Drop data with staff email
 # df_new = df_new.drop(df_new[df_new["Email"].str.contains("@karmagroup.com")].index)
 df_new = df_new.drop(df_new[df_new["Email"].str.contains('|'.join(staffMail()), flags=re.I)].index)
