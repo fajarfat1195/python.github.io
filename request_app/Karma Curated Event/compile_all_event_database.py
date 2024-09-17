@@ -78,11 +78,11 @@ df.columns
 # df.drop(df.loc[df['No'] == ''].index, inplace=True)
 # df.reset_index(drop=True, inplace=True)
 
-df['Event Date From'] = pd.to_datetime(df['Event Date From'])
+df['Event Date From'] = pd.to_datetime(df['Event Date From'], format='mixed')
 df['Event Date From'] = df['Event Date From'].dt.strftime('%d %b %Y')
-df['Event Date To'] = pd.to_datetime(df['Event Date To'])
+df['Event Date To'] = pd.to_datetime(df['Event Date To'], format='mixed')
 df['Event Date To'] = df['Event Date To'].dt.strftime('%d %b %Y')
-df['Dob'] = pd.to_datetime(df['Dob'])
+df['Dob'] = pd.to_datetime(df['Dob'], format='mixed')
 df['Dob'] = df['Dob'].dt.strftime('%d %b %Y')
 df['Event Name'] = df['Event Name'].str.upper()
 
