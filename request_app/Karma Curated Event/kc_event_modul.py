@@ -95,6 +95,8 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
                 time.sleep(65)
                 count = count
                 continue
+            else:
+                print(f"Error: {e}")
     result = pd.concat(frames, ignore_index=True)
 
     return result

@@ -22,7 +22,8 @@ gc = gspread.oauth(
 
 sheet_id = {
     "2023": '15bYOR2R6r20lvVUyVoVbYRdUr_8aiE02Ege-QT3cCi0',
-    "2024": '1k-70BJNRm01RE2S7gBXuOfqxofk1gYz4g6lPbLUCklw'
+    "2024": '1k-70BJNRm01RE2S7gBXuOfqxofk1gYz4g6lPbLUCklw',
+    "2025": '1AfxaROCWtYuCWPo31LYonED-qQ1y196lytIh2IAydxQ'
 }
 
 # SHEET_ID_DATABASE = '1AfxaROCWtYuCWPo31LYonED-qQ1y196lytIh2IAydxQ'
