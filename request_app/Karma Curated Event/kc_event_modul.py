@@ -89,14 +89,23 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
             count += 1
         except Exception as e:
             print(f"Error: {e}")
-            error_response = e.response.json()
-            if error_response['error']['code'] == 429:
-                print(f"limit exceeded, delay for one minute")
-                time.sleep(65)
+            if e.response is not None:
+                error_response = e.response.json()
+                if error_response['error']['code'] == 429:
+                    print(f"limit exceeded, delay for one minute")
+                    time.sleep(65)
+                    count = count
+                    continue
+                else:
+                    print(f"Error: {e}")
+            else:
+                # Handle the case where e.response is None
+                print("Error: No response received, delay for ten seconds")
+                # or log the error, or take alternative action
+                time.sleep(10)
                 count = count
                 continue
-            else:
-                print(f"Error: {e}")
+            
     result = pd.concat(frames, ignore_index=True)
 
     return result
