@@ -19,12 +19,13 @@ def get_campaign_list(api_key, client_id, search_value):
         campaigns = response.json()
         print("Campaigns List:")
         # Create a DataFrame from the campaigns data
-        df = pd.DataFrame(campaigns, columns=['Name','SentDate','TotalRecipients','CampaignID','Subject'])
+        df = pd.DataFrame(campaigns)
         # Display the DataFrame
     else:
         print(f"Failed to retrieve campaigns. Status Code: {response.status_code}, Response: {response.text}")
 
-    result = df.loc[df['Name'].str.contains(search_value)].copy()
+    result = df.loc[df['Name'].str.contains(search_value, regex=True)].copy()
+    result.reset_index(drop=True, inplace=True)
     return result
 
 def get_openers_list(api_key, campaign_id, page=None):
@@ -53,3 +54,21 @@ def get_openers_list(api_key, campaign_id, page=None):
 
     result = {'data': df, 'page_total':numbers_of_page}
     return result
+
+def loop_openers_list_page(api_key, campaign_id, page_total):
+    count = 1
+    frames = []
+
+    while count <= page_total: #tidak menggunakan len karena page total berupa
+        globals()['get_openers_list%s' % count] = get_openers_list(api_key, campaign_id, count)
+        globals()['df%s' % count] = pd.DataFrame(globals()['get_openers_list%s' % count]['data'])
+        
+        # memasukan semua file
+        frames.append(globals()['df%s' % count])
+        count += 1
+
+    df_openers = pd.concat(frames, ignore_index=True)
+    df_openers.sort_values(['EmailAddress','Date'], ascending=[True, False], inplace=True)
+    df_openers.drop_duplicates(subset=['EmailAddress'], inplace=True)
+
+    return df_openers
