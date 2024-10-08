@@ -19,7 +19,7 @@ def get_campaign_list(api_key, client_id, search_value):
         campaigns = response.json()
         print("Campaigns List:")
         # Create a DataFrame from the campaigns data
-        df = pd.DataFrame(campaigns)
+        df = pd.DataFrame(campaigns, columns=['Name','SentDate','TotalRecipients','CampaignID','Subject'])
         # Display the DataFrame
     else:
         print(f"Failed to retrieve campaigns. Status Code: {response.status_code}, Response: {response.text}")
