@@ -6,6 +6,7 @@ import pandas as pd
 # api_key = 'W7KbXzk9fFsN+G3XrIemdIu156KSPq3Qh60OQFQw9oP0UPnDvfq8w2SH5plgeZnpzyA4Bc2QCKVpK9SB42n8ZO3Z4Cpefu2/HGULJneNoJZ2zza129wfcsOL35Fpoweq3ZcidTNu110I/HCNguRGUw=='
 # client_id = '1545f43bbfe89f34ea7cf143c36c5e9f'
 
+# get data campaign list
 def get_campaign_list(api_key, client_id, search_value):
 
     # API endpoint
@@ -28,47 +29,49 @@ def get_campaign_list(api_key, client_id, search_value):
     result.reset_index(drop=True, inplace=True)
     return result
 
-def get_openers_list(api_key, campaign_id, page=None):
+# retrieve data endpoint from campaign
+def get_data_list(api_key, campaign_id, endpoint, page=None):
 
     if page is not None:
-        url = f'https://api.createsend.com/api/v3.2/campaigns/{campaign_id}/opens.json?page={page}'
+        url = f'https://api.createsend.com/api/v3.2/campaigns/{campaign_id}/{endpoint}.json?page={page}'
     else:
-        url = f'https://api.createsend.com/api/v3.2/campaigns/{campaign_id}/opens.json'
+        url = f'https://api.createsend.com/api/v3.2/campaigns/{campaign_id}/{endpoint}.json'
     
     # Make the GET request
     response = requests.get(url, auth=HTTPBasicAuth(api_key, ''))
 
     # Check for successful response
     if response.status_code == 200:
-        opens_data = response.json()
+        response_data = response.json()
         # Extract the 'Results' part of the JSON response
-        openers_list = opens_data.get('Results', [])
-        numbers_of_page = opens_data.get("NumberOfPages", [])
-        # Create a DataFrame from the list of openers
-        df = pd.DataFrame(openers_list)
+        data_list = response_data.get('Results', [])
+        numbers_of_page = response_data.get("NumberOfPages", [])
+        # Create a DataFrame from the list of data
+        df = pd.DataFrame(data_list)
         # print(f"Load data success")
         # if numbers_of_page > 1:
         #     print("Page lebih dari 1")
     else:
-        print(f"Failed to retrieve openers. Status Code: {response.status_code}, Response: {response.text}")
+        print(f"Failed to retrieve data. Status Code: {response.status_code}, Response: {response.text}")
 
     result = {'data': df, 'page_total':numbers_of_page}
     return result
 
-def loop_openers_list_page(api_key, campaign_id, page_total):
+# retrieve data per campaign list using loop and get the data based on endpoint
+def loop_data_list_page(api_key, campaign_id, endpoint, page_total):
     count = 1
     frames = []
 
     while count <= page_total: #tidak menggunakan len karena page total berupa
-        globals()['get_openers_list%s' % count] = get_openers_list(api_key, campaign_id, count)
-        globals()['df%s' % count] = pd.DataFrame(globals()['get_openers_list%s' % count]['data'])
+        globals()['get_data_list%s' % count] = get_data_list(api_key, campaign_id, endpoint, count)
+        globals()['df%s' % count] = pd.DataFrame(globals()['get_data_list%s' % count]['data'])
         
         # memasukan semua file
         frames.append(globals()['df%s' % count])
         count += 1
 
-    df_openers = pd.concat(frames, ignore_index=True)
-    df_openers.sort_values(['EmailAddress','Date'], ascending=[True, False], inplace=True)
-    df_openers.drop_duplicates(subset=['EmailAddress'], inplace=True)
+    df_data = pd.concat(frames, ignore_index=True)
+    df_data.sort_values(['EmailAddress','Date'], ascending=[True, False], inplace=True)
+    df_data.drop_duplicates(subset=['EmailAddress'], inplace=True)
 
-    return df_openers
+    return df_data
