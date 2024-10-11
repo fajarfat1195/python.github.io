@@ -71,7 +71,10 @@ def loop_data_list_page(api_key, campaign_id, endpoint, page_total):
         count += 1
 
     df_data = pd.concat(frames, ignore_index=True)
-    df_data.sort_values(['EmailAddress','Date'], ascending=[True, False], inplace=True)
+    if 'Date' in df_data.columns:
+        df_data.sort_values(['EmailAddress','Date'], ascending=[True, False], inplace=True)
+    else:
+        df_data.sort_values(['EmailAddress'], ascending=[True], inplace=True)
     df_data.drop_duplicates(subset=['EmailAddress'], inplace=True)
 
     return df_data
