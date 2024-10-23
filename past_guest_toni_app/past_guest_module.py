@@ -19,33 +19,33 @@ def delete_email(df, df_columns):
 
     return count_after_delete_email
 
-def email_correction(df, df_columns):
+# def email_correction(df, df_columns):
     
-    list_correction_mail = ['@mal\.','@mai\.']
-    df[df_columns].replace('|'.join(list_correction_mail), '@mail.', regex=True, inplace=True)
+#     list_correction_mail = ['@mal\.','@mai\.']
+#     df[df_columns].replace('|'.join(list_correction_mail), '@mail.', regex=True, inplace=True)
     
-    list_correction_gmail = [
-        '@gmil\.','@gmaail\.','@gmailo\.','@gmai\.','@gmails\.','@gmal\.','@gmwil\.','@gamail\.','@gmailk\.','@gmzil\.', '@gtmail\.',
-        '@gjail\.','@gmaip\.','@gmasil\.','@gmcil\.','@gail\.','@gimail\.','@gmailo\.','@gmaiol\.','@gmaili\.','@fgmail\.','@gamil\.'
-        ]
-    df[df_columns].replace('|'.join(list_correction_gmail), '@gmail.', regex=True, inplace=True)
+#     list_correction_gmail = [
+#         '@gmil\.','@gmaail\.','@gmailo\.','@gmai\.','@gmails\.','@gmal\.','@gmwil\.','@gamail\.','@gmailk\.','@gmzil\.', '@gtmail\.',
+#         '@gjail\.','@gmaip\.','@gmasil\.','@gmcil\.','@gail\.','@gimail\.','@gmailo\.','@gmaiol\.','@gmaili\.','@fgmail\.','@gamil\.'
+#         ]
+#     df[df_columns].replace('|'.join(list_correction_gmail), '@gmail.', regex=True, inplace=True)
 
-    list_correction_gmail_com = ['@gmail\.cm','@gmailc\.om', '@gmail\.clm', '@gmail\.con','@@gmail\.clm','@gmail\.coj','@gmail\.cok','@gmail\.c0m',
-                                 '@gmail\.comQ', '@gmail\.co$', '@gmail\.vom', '@gmail\.cim']
-    df[df_columns].replace('|'.join(list_correction_gmail_com), '@gmail.com', regex=True, inplace=True)
+#     list_correction_gmail_com = ['@gmail\.cm','@gmailc\.om', '@gmail\.clm', '@gmail\.con','@@gmail\.clm','@gmail\.coj','@gmail\.cok','@gmail\.c0m',
+#                                  '@gmail\.comQ', '@gmail\.co$', '@gmail\.vom', '@gmail\.cim']
+#     df[df_columns].replace('|'.join(list_correction_gmail_com), '@gmail.com', regex=True, inplace=True)
 
-    list_correction_hotmail = ['@jotmail\.','@hotmil\.','@hotlamil\.','@h0tmail\.','@hotjail\.','@hotmaio\.']
-    df[df_columns].replace('|'.join(list_correction_hotmail), '@hotmail.', regex=True, inplace=True)
+#     list_correction_hotmail = ['@jotmail\.','@hotmil\.','@hotlamil\.','@h0tmail\.','@hotjail\.','@hotmaio\.']
+#     df[df_columns].replace('|'.join(list_correction_hotmail), '@hotmail.', regex=True, inplace=True)
 
-    list_correction_hotmail_com = ['@jotmail\.dom']
-    df[df_columns].replace('|'.join(list_correction_hotmail_com), '@hotmail.com', regex=True, inplace=True)
+#     list_correction_hotmail_com = ['@jotmail\.dom']
+#     df[df_columns].replace('|'.join(list_correction_hotmail_com), '@hotmail.com', regex=True, inplace=True)
     
 
-    list_correction_yahoo = ['@yahho\.','@yaho\.','@gyahoo\.','@yahoom\.', '@yaoo\.','@yehoo\.','@yahio\.','@rotmail\.','@yshoo\.']
-    df[df_columns].replace('|'.join(list_correction_yahoo), '@yahoo.', regex=True, inplace=True)
+#     list_correction_yahoo = ['@yahho\.','@yaho\.','@gyahoo\.','@yahoom\.', '@yaoo\.','@yehoo\.','@yahio\.','@rotmail\.','@yshoo\.']
+#     df[df_columns].replace('|'.join(list_correction_yahoo), '@yahoo.', regex=True, inplace=True)
 
-    list_correction_ymail = ['@y7mail\.']
-    df[df_columns].replace('|'.join(list_correction_ymail), '@ymail.', regex=True, inplace=True)
+#     list_correction_ymail = ['@y7mail\.']
+#     df[df_columns].replace('|'.join(list_correction_ymail), '@ymail.', regex=True, inplace=True)
 
 def get_list_UK_EU():
 
