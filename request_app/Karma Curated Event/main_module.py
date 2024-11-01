@@ -190,7 +190,8 @@ def delete_karma(df, df_columns):
 
 def email_correction(df, df_columns):
 
-    df[df_columns].replace('mailto\:','', regex=True, inplace=True)
+    df[df_columns].replace('mailto:|-primary|-pri|-Mrs|(noemailtobesent)','', regex=True, inplace=True)
+    df[df_columns] = df[df_columns].str.replace(r'(\.com).*', r'\1', regex=True)
     df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = ''
     
     list_correction_mail = ['@mal\.','@mai\.']

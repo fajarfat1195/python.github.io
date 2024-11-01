@@ -190,7 +190,8 @@ def delete_karma(df, df_columns):
 
 def email_correction(df, df_columns):
 
-    df[df_columns].replace('mailto\:','', regex=True, inplace=True)
+    df[df_columns].replace('mailto:|-primary|-pri|-Mrs|(noemailtobesent)','', regex=True, inplace=True)
+    df[df_columns] = df[df_columns].str.replace(r'(\.com).*', r'\1', regex=True)
     df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = ''
     
     list_correction_mail = ['@mal\.','@mai\.']
@@ -199,12 +200,12 @@ def email_correction(df, df_columns):
         '@gjail\.','@gmaip\.','@gmasil\.','@gmcil\.','@gail\.','@gimail\.','@gmailo\.','@gmaiol\.','@gmaili\.','@fgmail\.','@gamil\.',
         '@gmaill\.'
         ]
-    list_correction_gmail_com = ['@gmail\.$', '@gmail\.cm','@gmailc\.om', '@gmail\.clm', '@gmail\.con','@@gmail\.clm','@gmail\.coj','@gmail\.cok','@gmail\.c0m',
+    list_correction_gmail_com = ['@gmail$','@gmail\.$', '@gmail\.cm','@gmailc\.om', '@gmail\.clm', '@gmail\.con','@@gmail\.clm','@gmail\.coj','@gmail\.cok','@gmail\.c0m',
                                  '@gmail\.comQ', '@gmail\.co$', '@gmail\.vom', '@gmail\.cim','@gmailcom','@gmail\.com;', '@gmail\.comcom\.','@gmail\.comcom;',
                                  '@gmail \.com','@gmail\.comcom-pri','@gmail\.comcom\.','@gmail\.comcom02','@gmail\.com-Daughter','@gmail\.com\.$','@gmail\.com-pri',
                                  '@gmail\.com02','@gmail\.com-Mrs','@gmail\.com-pri']
     list_correction_hotmail = ['@jotmail\.','@hotmil\.','@hotlamil\.','@h0tmail\.','@hotjail\.','@hotmaio\.']
-    list_correction_hotmail_com = ['@jotmail\.dom', 'georganita@hotmail\.com,']
+    list_correction_hotmail_com = ['@jotmail\.dom', '@hotmail\.com,']
     list_correction_yahoo_com = ['@yahoo\.com(noemailtobesent)']
     list_correction_yahoo = ['@yahho\.','@yaho\.','@gyahoo\.','@yahoom\.', '@yaoo\.','@yehoo\.','@yahio\.','@rotmail\.','@yshoo\.']
     list_correction_yahoo_in = ['@yahoo\.co\.in-pri']
