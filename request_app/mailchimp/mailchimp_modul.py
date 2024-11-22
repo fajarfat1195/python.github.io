@@ -22,6 +22,7 @@ def search_value_list_dic(column, key, value):
 # get data campaign list
 def get_campaign_list(api_key, server, search_value):
 
+
     try:
         client = MailchimpMarketing.Client()
         client.set_config({
@@ -57,11 +58,10 @@ def get_campaign_list(api_key, server, search_value):
     except ApiClientError as error:
         print("Error: {}".format(error.text))
 
-    # Filter for rows where there is an 'open' action
-    result = df_campaigns[df_campaigns.apply(lambda x: search_value_list_dic(x['settings'], 'title', search_value),
-        axis=1)]
+    # result = df_campaigns[df_campaigns.apply(lambda x: search_value_list_dic(x['settings'], 'title', search_value),
+    #     axis=1)]
     
-    return result
+    return df_campaigns
 
 # retrieve data endpoint from campaign
 def get_data_list(api_key, server, campaign_id):
