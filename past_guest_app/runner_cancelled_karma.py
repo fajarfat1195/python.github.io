@@ -91,7 +91,7 @@ def checkStatus(member):
         return 'Pendding'
 
 
-file = r'C:\Users\fajar\Documents\Python\Data\ZOHO - GL & VP - Guest Checked Out till 09-09-2024 - Cancelled.csv'
+file = r'C:\Users\fajar\Documents\Python\Data\ZOHO - GL & VP - Guest Checked Out till 25-11-2024 - Cancelled.csv'
 df = getCSV(file)
 df['EMail'] = df['EMail'].apply(findOTA)
 df['TelNo'] = df.apply(lambda x: Norm_Phone(x['TelNo'],x['Country']),axis=1)
