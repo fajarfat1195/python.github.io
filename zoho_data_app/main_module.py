@@ -198,7 +198,7 @@ def email_correction(df, df_columns):
     list_correction_gmail = [
         '@gmil\.','@gmaail\.','@gmailo\.','@gmai\.','@gmails\.','@gmal\.','@gmwil\.','@gamail\.','@gmailk\.','@gmzil\.', '@gtmail\.',
         '@gjail\.','@gmaip\.','@gmasil\.','@gmcil\.','@gail\.','@gimail\.','@gmailo\.','@gmaiol\.','@gmaili\.','@fgmail\.','@gamil\.',
-        '@gmaill\.'
+        '@gmaill\.','@gmaile\.'
         ]
     list_correction_gmail_com = ['@gmail$','@gmail\.$', '@gmail\.cm','@gmailc\.om', '@gmail\.clm', '@gmail\.con','@@gmail\.clm','@gmail\.coj','@gmail\.cok','@gmail\.c0m',
                                  '@gmail\.comQ', '@gmail\.co$', '@gmail\.vom', '@gmail\.cim','@gmailcom','@gmail\.com;', '@gmail\.comcom\.','@gmail\.comcom;',
