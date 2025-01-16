@@ -90,6 +90,10 @@ def clean_space(df, df_columns):
     df[df_columns].replace(' ','', regex=True, inplace=True)
     return df[df_columns]
 
+def clean_double_char(df, df_columns):
+    df[df_columns].replace('\.\.','.', regex=True, inplace=True)
+    return df[df_columns]
+
 def delete_email_wrong_format(df, df_columns):
 
     # cek deleted row
@@ -188,17 +192,42 @@ def delete_karma(df, df_columns):
 
     return count_after_clean_karma
 
+def check_email_special_char(email):
+
+    if pd.isna(email) or email == '':
+            return email  # Skip if the email is NaN or empty
+
+     # Split the email into local part and domain (if '@' exists)
+    parts = email.split('@')
+    local_part = parts[0] if len(parts) > 0 else ''
+    domain = parts[1] if len(parts) > 1 else ''
+
+    if 'gmail' in email and '@gmail' not in email:
+        email = email.replace('@', '') # untuk menghapus posisi @ yang salah tempat (tidak debelakang domain)
+        email = email.replace('gmail', '@gmail')
+    # Use condition to check if "yahoo" is not at the start of the email
+    elif 'yahoo' in email and not email.startswith('yahoo') and '@yahoo' not in email:
+            if 'myyahoo' not in email and 'yahoo@gmail' not in email:
+                # Remove any existing '@' and replace "yahoo" with "@yahoo"
+                email = email.replace('@', '')
+                email = email.replace('yahoo', '@yahoo')
+    elif 'hotmail' in email and '@hotmail' not in email:
+        email = email.replace('@', '')
+        email = email.replace('hotmail', '@hotmail')
+    return email
+
 def email_correction(df, df_columns):
 
-    df[df_columns].replace('mailto:|-primary|-pri|-Mrs|(noemailtobesent)','', regex=True, inplace=True)
+    df[df_columns] = df[df_columns].str.lower()
+
+    df[df_columns].replace('^mailto:|-primary$|-pri$|-Mrs$|(noemailtobesent)$','', regex=True, inplace=True)
     # df[df_columns] = df[df_columns].str.replace(r'(\.com).*', r'\1', regex=True)
-    df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = ''
-    
+
     list_correction_mail = ['@mal\.','@mai\.']
     list_correction_gmail = [
         '@gmil\.','@gmaail\.','@gmailo\.','@gmai\.','@gmails\.','@gmal\.','@gmwil\.','@gamail\.','@gmailk\.','@gmzil\.', '@gtmail\.',
         '@gjail\.','@gmaip\.','@gmasil\.','@gmcil\.','@gail\.','@gimail\.','@gmailo\.','@gmaiol\.','@gmaili\.','@fgmail\.','@gamil\.',
-        '@gmaill\.','@gmaile\.'
+        '@gmaill\.','@gmaile\.','@gmaild\.','@ygmail\.','@yahoogmail\.'
         ]
     list_correction_gmail_com = ['@gmail$','@gmail\.$', '@gmail\.cm','@gmailc\.om', '@gmail\.clm', '@gmail\.con','@@gmail\.clm','@gmail\.coj','@gmail\.cok','@gmail\.c0m',
                                  '@gmail\.comQ', '@gmail\.co$', '@gmail\.vom', '@gmail\.cim','@gmailcom','@gmail\.com;', '@gmail\.comcom\.','@gmail\.comcom;',
@@ -207,7 +236,7 @@ def email_correction(df, df_columns):
     list_correction_hotmail = ['@jotmail\.','@hotmil\.','@hotlamil\.','@h0tmail\.','@hotjail\.','@hotmaio\.']
     list_correction_hotmail_com = ['@jotmail\.dom', '@hotmail\.com,']
     list_correction_yahoo_com = ['@yahoo\.com(noemailtobesent)']
-    list_correction_yahoo = ['@yahho\.','@yaho\.','@gyahoo\.','@yahoom\.', '@yaoo\.','@yehoo\.','@yahio\.','@rotmail\.','@yshoo\.']
+    list_correction_yahoo = ['@yahho\.','@yaho\.','@gyahoo\.','@yahoom\.', '@yaoo\.','@yehoo\.','@yahio\.','@rotmail\.','@yshoo\.','@tyahoo\.','@hyahoo\.']
     list_correction_yahoo_in = ['@yahoo\.co\.in-pri']
 
     # df[df_columns].replace('|'.join(list_correction_mail), '1', regex=True, inplace=True)
@@ -227,6 +256,21 @@ def email_correction(df, df_columns):
     df[df_columns].replace('|'.join(list_correction_yahoo_com), '@yahoo.com', regex=True, inplace=True)
     df[df_columns].replace('|'.join(list_correction_yahoo), '@yahoo.', regex=True, inplace=True)
     df[df_columns].replace('|'.join(list_correction_yahoo_in), '@yahoo.co.in', regex=True, inplace=True)
+
+    # # jika gmail tidak ada @ di depannya
+    # df[df_columns].replace(r'(?<!@)gmail', '@gmail', regex=True, inplace=True)
+
+    # # jika hotmail tidak ada @ di depannya
+    # df[df_columns].replace(r'(?<!@)hotmail', '@hotmail', regex=True, inplace=True)
+    
+    # # jika yahoo tidak ada @ di depannya
+    # df[df_columns].replace(r'(?<!@)yahoo', '@yahoo', regex=True, inplace=True)
+
+    # untuk memperbaiki script yahoo diatas (kadang yang myyahoo juga kena)
+    df[df_columns] = df[df_columns].apply(
+        lambda x: check_email_special_char(x)
+    )
+    df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = ''
 
 def clean_missing(df):
     df.replace('MISSING','', regex=True, inplace=True)
