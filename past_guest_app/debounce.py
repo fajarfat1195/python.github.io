@@ -26,7 +26,7 @@ def debounce_check(email):
     test = deb_data['debounce']['reason']
     return test
 
-path = r'C:\Users\fajar\Documents\Python\Data\normalize_cancelled.csv'
+path = r'C:\Users\fajar\Documents\Python\Data\normalize_viewpoint.csv'
 df_past_guest = pd.read_csv(path, dtype='string', encoding='utf8')
 
 df_past_guest['Email_status'] = df_past_guest.apply(
@@ -34,7 +34,7 @@ df_past_guest['Email_status'] = df_past_guest.apply(
     axis=1,
 )
 
-df_past_guest.to_csv(r'C:\Users\fajar\Documents\Python\Data\normalize_cancelled_debounce.csv', index=False, encoding='utf8')
+df_past_guest.to_csv(r'C:\Users\fajar\Documents\Python\Data\normalize_viewpoint_debounce.csv', index=False, encoding='utf8')
 
 # deb_data = deb.validonce('fajarfatonisocial@gmail.com')
 # test = deb_data['debounce']['reason']

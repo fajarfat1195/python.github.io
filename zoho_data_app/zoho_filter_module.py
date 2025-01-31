@@ -6,7 +6,7 @@ import re
 
 def user_req(df):
     
-    f_1 = (df['Email'] == 'zzangss75@hotmail.com')
+    f_1 = (df['Do you live in Bali?'].isna())
     c_1 = ~(df['Email'].isna() & df['Mobile'].isna() & df['Phone'].isna()) 
     final_filter = (
         (f_1) &
