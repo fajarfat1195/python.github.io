@@ -6,7 +6,7 @@ import re
 
 def user_req(df):
     
-    f_1 = (df['Do you live in Bali?'].isna())
+    f_1 = (df['Lead Source'].str.contains('COVID Register', regex=True, flags=re.I))
     c_1 = ~(df['Email'].isna() & df['Mobile'].isna() & df['Phone'].isna()) 
     final_filter = (
         (f_1) &
