@@ -5,6 +5,14 @@ import time
 import gspread
 from gspread.exceptions import APIError, SpreadsheetNotFound, WorksheetNotFound
 
+
+def clean_new_line_value(value):
+# Replace newline characters with a space
+    cleaned_value = value.replace('\n', ' ')
+    # Remove extra spaces and strip leading/trailing spaces
+    cleaned_value = re.sub(r'\s+', ' ', cleaned_value).strip()
+    return cleaned_value
+
 def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
 
     count = 0
@@ -53,6 +61,15 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
                         globals()['df%s' % count].loc[globals()['df%s' % count]['Event Type'] == '', 'Event Type'] = non_empty_event_type.iloc[0]
 
                     # get summary detail event sheets
+                    globals()['df%s' % count]['Event Name Detail'] = ''
+                    globals()['event_name_detail%s' % count] = globals()['df%s' % count]['Membership Type'].loc[globals()['df%s' % count]['Servicing Office'] == 'Event Name'].to_list()
+                    if  globals()['event_name_detail%s' % count]: # if value exist on summary detail
+                        globals()['df%s' % count]['Event Name Detail'] = globals()['event_name_detail%s' % count][0]
+                        globals()['df%s' % count]['Event Name Detail'] = globals()['df%s' % count]['Event Name Detail'].apply(clean_new_line_value).str.title() # remove newline character
+                    else:
+                        globals()['df%s' % count]['Event Name Detail'] = ''
+
+
                     globals()['df%s' % count]['Event Link'] = ''
                     globals()['event_link%s' % count] = globals()['df%s' % count]['Servicing Office'].loc[globals()['df%s' % count]['Servicing Office'].str.contains('http', na=False)].to_list()
                     if  globals()['event_link%s' % count]: # if value exist on summary detail
