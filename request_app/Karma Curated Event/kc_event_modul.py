@@ -65,7 +65,8 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
                     globals()['event_name_detail%s' % count] = globals()['df%s' % count]['Membership Type'].loc[globals()['df%s' % count]['Servicing Office'] == 'Event Name'].to_list()
                     if  globals()['event_name_detail%s' % count]: # if value exist on summary detail
                         globals()['df%s' % count]['Event Name Detail'] = globals()['event_name_detail%s' % count][0]
-                        globals()['df%s' % count]['Event Name Detail'] = globals()['df%s' % count]['Event Name Detail'].apply(clean_new_line_value).str.title() # remove newline character
+                        globals()['df%s' % count]['Event Name Detail'] = globals()['df%s' % count]['Event Name Detail'].apply(clean_new_line_value) # remove newline character
+                        globals()['df%s' % count]['Event Name Detail'] = globals()['df%s' % count]['Event Name Detail'].str.replace("’S", "’s", regex=False)
                     else:
                         globals()['df%s' % count]['Event Name Detail'] = ''
 
