@@ -11,8 +11,12 @@ def load_data_multiple(dir_path, file_name, cols):
     frames = []
     # Iterate directory
     for path in os.listdir(dir_path):
+
+        if path == "desktop.ini":
+                continue
+
         # check if current path is a file
-        if os.path.isfile(os.path.join(dir_path, path)):
+        if os.path.isfile(os.path.join(dir_path, path)) and path != "desktop.ini":
             count += 1
             
             if count > 9: # jika file sudah lebih dari sepuluh
