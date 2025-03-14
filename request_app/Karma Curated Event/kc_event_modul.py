@@ -139,6 +139,7 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
     return result
 
 def get_file_sheets(sheet_id, execeptional_list, gc):
+    
     count = 0
 
     frames = []
