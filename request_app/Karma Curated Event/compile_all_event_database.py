@@ -6,6 +6,9 @@ from fractions import Fraction
 import re
 import numpy as np
 
+import sys
+sys.path.append('../../zoho_data_app/')
+
 import main_module as m
 
 # Pastikan permision access di menu "Share" di rubah ke anyone with the link terlebih dahulu, agar bisa mengunakan cara OAuth
@@ -34,10 +37,13 @@ execeptional_list = [
     'DB', 
     'DV', 
     'List Events Transition',
+    'Event List',
     'Summary Report',
     'PAST EVENTS - Summary Report',
+    'PAST EVENTS SUMMARY - 2025',
     'Past Attedants',
-    'Template'
+    'Template',
+    'KARMA LONG LUNCH: PERTH 27 Jan list',
     ]
 
 
@@ -61,6 +67,10 @@ df = kc.get_file_sheets(sheet_id, execeptional_list, gc)
 df
 
 # %%
+# df.loc[df['Dob'] == '31 Msr 53'].to_excel(r'C:\Users\fajar\Documents\Python\Data\input_data_salah.xlsx', index=False)
+df.loc[df['Event Name Detail'] == 'Strawberry Fields & Culinary Classics in Maharashtra']
+
+# %%
 m.clean_number(df, 'Tel/Phone')
 m.clean_number(df, 'Member No')
 
@@ -76,8 +86,15 @@ df.columns
 # df.to_csv(r'C:\Users\fajar\Documents\Python\Data\test.csv', index=False)
 
 # %%
+# df[['Dob','Event Name']].loc[df['Dob'].notna()]
+# df[['Event Date From','Event Date To','Event Name']].loc[df['Event Date From'].notna()]
+
+# %%
 # df.drop(df.loc[df['No'] == ''].index, inplace=True)
 # df.reset_index(drop=True, inplace=True)
+
+for col in ['Dob']:
+    df[col] = pd.to_datetime(df[col], errors='coerce')
 
 df['Event Date From'] = pd.to_datetime(df['Event Date From'], format='mixed')
 df['Event Date From'] = df['Event Date From'].dt.strftime('%d %b %Y')
@@ -91,7 +108,7 @@ df.loc[~df['Email'].str.contains('@'), 'Email'] = ''
 
 # %%
 df.fillna('', inplace=True)
-# df.to_csv(r'C:\Users\fajar\Documents\Python\Data\test.csv', index=False)
+df.to_csv(r'C:\Users\fajar.fatoni\Documents\Python\Data\compiled_curated.csv', index=False)
 
 # %%
 df.values.tolist()
