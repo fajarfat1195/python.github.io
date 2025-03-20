@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 def get_crm_token():
     import requests
 
-    url = 'https://accounts.zoho.com/oauth/v2/token?client_id=1000.8ZWIGIGFJGL2XE23M81L2FPLB7WQXC&grant_type=refresh_token&client_secret=eb10f3fd944667ff8e4facb7b217f1531acd07b280&refresh_token=1000.f3d72ae385fa79257efddb383a63b73d.5c7b7ef21cfaaa49dc0b7f88c193fb5c'
+    url = 'https://accounts.zoho.com/oauth/v2/token?client_id=1000.8ZWIGIGFJGL2XE23M81L2FPLB7WQXC&grant_type=refresh_token&client_secret=eb10f3fd944667ff8e4facb7b217f1531acd07b280&refresh_token=1000.19b991b064e9ea14d8ef866ee57966dc.9875f2a0656f1f9f33b22ff6a974ab67'
 
     # post data menggunakan request
     response = requests.post(url)
@@ -164,6 +164,71 @@ def get_newsletter_data_filter(df):
         f_6 &
         f_7 &
         f_8 
+    )
+
+    zoho_df = df.loc[final_filter].copy() # menggunakan copy untuk menghindari setting copy warning
+    zoho_df.reset_index(drop=True, inplace=True)
+    zoho_df
+
+    return zoho_df
+
+def get_kbb_vip_data(token, cols):
+    array_df = []
+
+    # mencari tanggal 8 hari kebelekang
+    calculate_date = datetime.now() - timedelta(days=8)
+    new_cal_date = str(calculate_date.strftime("%Y-%m-%d")).split(' ')
+    first_date = new_cal_date[0]
+    # first_date = '2022-12-06'
+
+    # mencari tanggal hari ini
+    today = date.today()
+    second_date = today.strftime("%Y-%m-%d")
+    # second_date = '2022-12-14'
+
+    start_date = '\''+first_date+'T00:00:01+08:00\''
+    end_date = '\''+second_date+'T23:59:59+08:00\''
+
+    for x in range(99999):
+        limit = 200
+        offset = str(x*limit)
+
+        query = "select id, Created_Time, First_Name, Last_Name, Email, Birthdate, Phone, Street, City, Country, Brand, Lead_Sub_Brand, Lead_Source, Lead_Source_Description, Lead_Locations, Lead_History, Website, Card_Number, Card_Expired, Do_you_live_in_Bali from Leads where ( Created_Time between "+start_date+" and "+end_date+") offset "+offset+" limit 200"
+
+        url_get_lead = 'https://www.zohoapis.com/crm/v2/coql'
+        headers = {'Authorization': 'Zoho-oauthtoken '+token}
+        body = {
+            "select_query": query
+        }
+
+        content_res = requests.post(url_get_lead, headers=headers, json=body).json()
+        normalize = json_normalize(content_res['data'])
+        df = pd.DataFrame(normalize)
+        new_df = df[cols].copy()
+
+        # jika jumlah data yang diloop masih ada atau lebih dari 0
+        # memasukan df kedalam array_df
+        if (content_res['info']['more_records'] == False):
+            array_df.append(new_df)
+            break
+        # jika jumlah data sudah habis atau 0 maka akan menghentikan loop
+        else:
+            array_df.append(new_df)
+    
+    concat_df = pd.concat(array_df, ignore_index=True)
+
+    concat_df['Lead_Locations'] = concat_df['Lead_Locations'].astype('string')
+    concat_df['Lead_Locations'].replace('\[|\]|\'','', regex=True, inplace=True)
+
+    return concat_df
+
+def get_kbb_vip_filter(df):
+    f_1 = (df['Lead_Source_Description'].str.contains('Karma Beach VIP membership sign up|Karma Beach Bali offer sign up|Karma Beach VIP membership sign up 2023', flags=re.I, regex=True))
+
+    # mengambil data yang email, phone dan mobilenya tidak kosong
+        
+    final_filter = (
+        f_1
     )
 
     zoho_df = df.loc[final_filter].copy() # menggunakan copy untuk menghindari setting copy warning
