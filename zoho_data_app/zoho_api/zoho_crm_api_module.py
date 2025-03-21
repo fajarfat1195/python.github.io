@@ -193,7 +193,7 @@ def get_kbb_vip_data(token, cols):
         limit = 200
         offset = str(x*limit)
 
-        query = "select id, Created_Time, First_Name, Last_Name, Email, Birthdate, Phone, Street, City, Country, Brand, Lead_Sub_Brand, Lead_Source, Lead_Source_Description, Lead_Locations, Lead_History, Website, Card_Number, Card_Expired, Do_you_live_in_Bali from Leads where ( Created_Time between "+start_date+" and "+end_date+") offset "+offset+" limit 200"
+        query = "select id, Created_Time, First_Name, Last_Name, Email, Birthdate, Phone, Street, City, Country, Brand, Lead_Sub_Brand, Lead_Source, Lead_Source_Description, Lead_Locations, Lead_History, Website, Card_Number, Card_Expired, Do_you_live_in_Bali from Leads where Brand = 'Karma Resorts' and ( Created_Time between "+start_date+" and "+end_date+") offset "+offset+" limit 200"
 
         url_get_lead = 'https://www.zohoapis.com/crm/v2/coql'
         headers = {'Authorization': 'Zoho-oauthtoken '+token}

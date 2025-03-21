@@ -276,6 +276,14 @@ def email_correction(df, df_columns):
     )
     df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = ''
 
+# Function to fix the encoding
+def fix_encoding(garbled_string):
+    try:
+        # Encode the garbled string to bytes using 'latin1' and then decode it to 'utf-8'
+        return garbled_string.encode('latin1').decode('utf-8')
+    except Exception as e:
+        return garbled_string  # Return the original string if there's an error
+
 def clean_missing(df):
     df.replace('MISSING','', regex=True, inplace=True)
 
