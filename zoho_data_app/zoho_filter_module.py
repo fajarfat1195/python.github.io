@@ -6,11 +6,15 @@ import re
 
 def user_req(df):
     
-    f_1 = (df['Lead Source'].str.contains('COVID Register', regex=True, flags=re.I))
+
+    f_1 = (df['Lead Sub-Brand'].str.contains('Karma Experience', regex=True, flags=re.I))
+    f_2 = ~(df['Email'].str.contains('karmagroup.com'))
     c_1 = ~(df['Email'].isna() & df['Mobile'].isna() & df['Phone'].isna()) 
     final_filter = (
-        (f_1) &
-        c_1 )
+        f_1 &
+        f_2 &
+        c_1
+    )
 
     return final_filter
 
@@ -343,9 +347,8 @@ def only_source_past_guests(df):
     f_1 = (df['Lead Brand'] == 'Karma Resorts')
     f_2 = (df['Lead Sub-Brand'] == 'Other')
     f_3 = (df['Lead Source'] == 'Past Guests')
-    f_4 = (~df['Email'].str.contains('karmagroup.com'))
-    f_5 = (~df['Email'].isna())
-    f_6 = (df['Opt In']=='true')
+    f_4 = ~(df['Email'].str.contains('karmagroup.com'))
+    c_1 = ~(df['Email'].isna() & df['Mobile'].isna() & df['Phone'].isna()) 
 
     # mengambil data yang email, phone dan mobilenya tidak kosong
     
@@ -354,8 +357,7 @@ def only_source_past_guests(df):
         f_2 & 
         f_3 & 
         f_4 & 
-        f_5 & 
-        f_6
+        c_1 
     )
 
     return final_filter
