@@ -7,7 +7,7 @@ import re
 def user_req(df):
     
 
-    f_1 = (df['Lead Sub-Brand'].str.contains('Karma Experience', regex=True, flags=re.I))
+    f_1 = (df['Lead Sub-Brand'].str.contains('BGAU|BGID|Bali Gateway', regex=True, flags=re.I))
     f_2 = ~(df['Email'].str.contains('karmagroup.com'))
     c_1 = ~(df['Email'].isna() & df['Mobile'].isna() & df['Phone'].isna()) 
     final_filter = (
