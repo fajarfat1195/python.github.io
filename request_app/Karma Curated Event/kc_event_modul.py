@@ -13,6 +13,16 @@ def clean_new_line_value(value):
     cleaned_value = re.sub(r'\s+', ' ', cleaned_value).strip()
     return cleaned_value
 
+def clean_numeric_column(series, keep_decimal=True):
+    if keep_decimal:
+        # Keep numbers + decimal
+        cleaned = series.astype(str).str.replace(r'[^\d.]', '', regex=True)
+        return pd.to_numeric(cleaned, errors='coerce')  # Keep NaN if can't parse
+    else:
+        # Keep only integer digits
+        cleaned = series.astype(str).str.extract(r'(\d+)')[0]
+        return pd.to_numeric(cleaned, errors='coerce').astype('Int64')
+
 def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
 
     count = 0
