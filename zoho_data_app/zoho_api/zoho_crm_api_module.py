@@ -335,7 +335,7 @@ def get_fb_ads_wedding_data(token, cols):
 
 def get_fb_ads_wedding_filter(df):
     f_1 = (df['Lead_History'].str.contains('meta', flags=re.I, regex=True))
-    f_2 = (df['Lead_Locations'].str.contains('Karma Sallford Hall|Karma Lake of Menteith', flags=re.I, regex=True))
+    f_2 = (df['Lead_Locations'].str.contains('Karma Salford Hall|Karma Lake of Menteith', flags=re.I, regex=True))
 
     # mengambil data yang email, phone dan mobilenya tidak kosong
         
