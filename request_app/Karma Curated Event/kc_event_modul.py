@@ -33,7 +33,7 @@ def compile(spreadsheet, sheet_names_id, sheet_names, execeptional_list):
             if sheet_names[count] not in execeptional_list:
                 if not pd.Series([sheet_names[count]]).str.contains('sheet', flags=re.I).any():
                     sheet = spreadsheet.worksheet(sheet_names[count])
-                    # print(f"Sheet {sheet_name} has {sheet.row_count} rows and {sheet.col_count} columns")
+                    # print(f"Sheet {sheet_names[count]} has {sheet.row_count} rows and {sheet.col_count} columns")
 
                     globals()['worksheet%s' % count] = spreadsheet.worksheet(sheet_names[count])
                     globals()['rows%s' % count] = globals()['worksheet%s' % count].get_all_records()
