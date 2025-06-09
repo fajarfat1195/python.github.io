@@ -2,6 +2,7 @@ import pandas as pd
 import re
 import numpy as np
 from fractions import Fraction
+import os
 
 def load_data_multiple(dir_path, file_name, cols):
 
@@ -26,6 +27,7 @@ def load_data_multiple(dir_path, file_name, cols):
             
             # membuat dynamic variable
             globals()['df%s' % count] = pd.read_csv(df_path, dtype='string',usecols = cols)
+            print(df_path)
             #print(globals()['df%s' % count])
 
             # memasukan semua file
@@ -35,6 +37,37 @@ def load_data_multiple(dir_path, file_name, cols):
     result = pd.concat(frames, ignore_index=True)
 
     return result
+
+def load_data_multiple_mac(dir_path, file_prefix, cols):
+    frames = []
+
+    # Make sure directory path is clean (no trailing slash)
+    dir_path = dir_path.rstrip('/\\')
+
+    # List all files in the directory
+    for file_name in sorted(os.listdir(dir_path)):
+        full_path = os.path.join(dir_path, file_name)
+
+        # Filter only valid CSVs with the correct prefix
+        if (
+            os.path.isfile(full_path)
+            and file_name.startswith(file_prefix)
+            and file_name.endswith('.csv')
+        ):
+            try:
+                print(f"Loading: {file_name}")
+                df = pd.read_csv(full_path, dtype='string', usecols=lambda x: x in cols, encoding='utf-8')
+                frames.append(df)
+            except Exception as e:
+                print(f"⚠️ Skipped {file_name}: {e}")
+
+    if not frames:
+        raise ValueError("No valid files found to concatenate.")
+
+    result = pd.concat(frames, ignore_index=True)
+    return result
+
+
 
 def load_data_multiple_all(dir_path, file_name):
 
