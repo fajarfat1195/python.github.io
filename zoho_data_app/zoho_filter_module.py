@@ -7,12 +7,12 @@ import re
 def user_req(df):
     
 
-    f_1 = (df['Lead Sub-Brand'].str.contains('BGAU|BGID|Bali Gateway', regex=True, flags=re.I))
-    f_2 = ~(df['Email'].str.contains('karmagroup.com'))
-    c_1 = ~(df['Email'].isna() & df['Mobile'].isna() & df['Phone'].isna()) 
+    f_1 = (df['Country'].str.contains('United Kingdom|UK', regex=True, flags=re.I))
+    f_2 = (df['Phone'].str.contains('^44', regex=True, flags=re.I))
+    c_1 = ~(df['Mobile'].isna() & df['Phone'].isna()) 
     final_filter = (
-        f_1 &
-        f_2 &
+        (f_1 |
+        f_2) &
         c_1
     )
 
