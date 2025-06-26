@@ -192,7 +192,7 @@ def email_correction(df, df_columns):
 
     df[df_columns].replace('mailto:|-primary|-pri|-Mrs|(noemailtobesent)','', regex=True, inplace=True)
     # df[df_columns] = df[df_columns].str.replace(r'(\.com).*', r'\1', regex=True)
-    df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = ''
+    df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = 'empty'
     
     list_correction_mail = ['@mal\.','@mai\.']
     list_correction_gmail = [

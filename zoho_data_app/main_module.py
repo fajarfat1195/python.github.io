@@ -307,7 +307,7 @@ def email_correction(df, df_columns):
     df[df_columns] = df[df_columns].apply(
         lambda x: check_email_special_char(x)
     )
-    df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = ''
+    df[df_columns].loc[~df[df_columns].str.contains('@', df_columns, na=False)] = 'empty'
 
 # Function to fix the encoding
 def fix_encoding(garbled_string):
