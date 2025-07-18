@@ -148,7 +148,7 @@ def delete_email_wrong_format(df, df_columns):
 
     df.reset_index(drop=True, inplace=True)
 
-    return deleted_row.shape[0]
+    return deleted_row
 
 def replace_wrong_email_with_empty(df, df_columns):
     # Replace wrong email format with 'empty'
