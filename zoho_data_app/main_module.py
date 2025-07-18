@@ -139,7 +139,6 @@ def delete_email_wrong_format(df, df_columns):
         (~df[df_columns].str.contains('@', regex=True)) &
         (df[df_columns] != 'empty')
     ].copy()
-    
 
     df.drop(df.loc[
         (df[df_columns].str.contains('@$', regex=True))|
@@ -150,6 +149,18 @@ def delete_email_wrong_format(df, df_columns):
     df.reset_index(drop=True, inplace=True)
 
     return deleted_row.shape[0]
+
+def replace_wrong_email_with_empty(df, df_columns):
+    # Replace wrong email format with 'empty'
+    mask = (
+        (df[df_columns].str.contains('@$', regex=True)) |
+        (~df[df_columns].str.contains('@', regex=True)) &
+        (df[df_columns] != 'empty')
+    )
+    
+    df.loc[mask, df_columns] = 'empty'
+    return df
+
 
 def clean_not_valid_email_format(df, df_columns):
     df[df_columns] = df[df_columns].replace('\s|\`|\^|\&|\<|\>|\(|\)|\?','', regex=True)
