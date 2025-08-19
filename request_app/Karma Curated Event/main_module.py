@@ -207,7 +207,7 @@ def email_correction(df, df_columns):
     list_correction_hotmail = ['@jotmail\.','@hotmil\.','@hotlamil\.','@h0tmail\.','@hotjail\.','@hotmaio\.']
     list_correction_hotmail_com = ['@jotmail\.dom', '@hotmail\.com,']
     list_correction_yahoo_com = ['@yahoo\.com(noemailtobesent)']
-    list_correction_yahoo = ['@yahho\.','@yaho\.','@gyahoo\.','@yahoom\.', '@yaoo\.','@yehoo\.','@yahio\.','@rotmail\.','@yshoo\.']
+    list_correction_yahoo = ['@yahho\.','@yaho\.','@gyahoo\.','@yahoom\.', '@yaoo\.','@yehoo\.','@yahio\.','@rotmail\.','@yshoo\.','@yohoo\.']
     list_correction_yahoo_in = ['@yahoo\.co\.in-pri']
 
     # df[df_columns].replace('|'.join(list_correction_mail), '1', regex=True, inplace=True)
