@@ -56,6 +56,13 @@ def get_list_UK_EU():
 
     return list_UK_EU
 
+def get_list_EU():
+
+    list_EU = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', 'Belarus', 'Belgium', 'Bosnia', 'Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'French Guiana', 'Georgia', 'Germany', 'Greece', 'Guadeloupe', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan', 'Kosovo', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Martinique', 'Mayotte', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 'Portugal', 'Réunion', 'Romania', 'Russia', 'Saint Martin', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'Vatican']
+
+    return list_EU
+
+
 def get_list_Others():
     
     list_Others = ['Australia','Afghanistan','Åland Islands','Algeria','American Samoa','Angola','Anguilla','Antigua and Barbuda','Argentina','Aruba','Ascension','Australia',
